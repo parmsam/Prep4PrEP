@@ -1,42 +1,76 @@
 library(shiny)
 library(bslib)
 library(vembedr)
-
+library(htmltools)
+library(flexdashboard)
 light <- bs_theme(version = 4, bootswatch = "minty")
 
 ui <- fluidPage(
   theme = light,
-  titlePanel("Learn more about PrEP"),
-  h3("Sources"),
-  sidebarLayout(
-    sidebarPanel(
-      p(tags$a(href="https://www.greaterthan.org/", "Greater Than AIDS"),
-      "is a leading public information response from KFF (Kaiser Family Foundation) 
-      to the U.S. domestic HIV/AIDS epidemic with a focus on areas and people most affected. 
-      Video content from  Greater Than AIDS Youtube Channel.")
+  navbarPage("Prep for PrEP", id="inTabset",
+  tabPanel("Welcome",
+          div(h1("Prep for PrEP"),style="text-align:center;"),
+          div(h2("Welcome"),style="text-align:center;"),
+          br(),br(),
+          div(
+            actionButton("do",tags$b( "Click here")),
+            style="text-align:center;"),
+          ),
+  tabPanel(title="Learn", value = "panel1",
+    titlePanel("Learn more about PrEP"),
+    h3("Sources"),
+    sidebarLayout(
+      sidebarPanel(
+        p(tags$a(href="https://www.greaterthan.org/", "Greater Than AIDS"),
+        "is a leading public information response from KFF (Kaiser Family Foundation) 
+        to the U.S. domestic HIV/AIDS epidemic with a focus on areas and people most affected. 
+        Video content from  Greater Than AIDS Youtube Channel.")
+      ),
+      mainPanel(
+        br(),
+        actionButton("button1", "What is PReP?"),
+        br(),br(),
+        actionButton("button2", "How does PReP work?"),
+        br(),br(),
+        actionButton("button5", "Where can I get PrEP?"),
+        br(),br(),
+        actionButton("button3", "How do I get PReP?"),
+        br(),br(),
+        actionButton("button6", "How effective is PrEP?"),
+        br(),br(),
+        actionButton("button8", "Does PrEP have side effects?"),
+        br(),br(),
+        actionButton("button7", "I use condoms. Do I need PrEP?"),
+        br(),br(),
+        actionButton("button4", "PrEP vs PEP?")
+        )
+      )
     ),
-    mainPanel(
-      actionButton("button1", "What is PReP?"),
-      br(),br(),
-      actionButton("button2", "How does PReP work?"),
-      br(),br(),
-      actionButton("button5", "Where can I get PrEP?"),
-      br(),br(),
-      actionButton("button3", "How do I get PReP?"),
-      br(),br(),
-      actionButton("button6", "How effective is PrEP?"),
-      br(),br(),
-      actionButton("button8", "Does PrEP have side effects?"),
-      br(),br(),
-      actionButton("button7", "I use condoms. Do I need PrEP?"),
-      br(),br(),
-      actionButton("button4", "PrEP vs PEP?")
-    )
-  )
-)
+  tabPanel("Get",
+           mainPanel(
+           htmlOutput("frame")
+           )
+           )
+  
+  ))
 
 server <- function(input, output, session) {
   textFill <- reactiveValues(data="9CyW09S5Le8")
+  
+  output$frame <- renderUI({
+    my_iframe <- tags$iframe(src='https://preplocator.org/prep-widget/',
+                             frameborder = "no",
+                             scrolling="no",
+                             # overflow="hidden",
+                             position= "fixed",
+                             style='width:100%; height:100vh')
+    # style='width:95vw;height:100vh;'
+  })
+  
+  observeEvent(input$do, {
+    updateTabsetPanel(session, "inTabset",
+                      selected = "panel1")
+  })
   
   observeEvent(input$button1, {
     textFill$data <- ("9CyW09S5Le8")
