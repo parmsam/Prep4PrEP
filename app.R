@@ -5,20 +5,25 @@ library(vembedr)
 library(htmltools)
 library(flexdashboard)
 # set theme ----
-light <- bs_theme(version = 4, bootswatch = "litera")
+light <- bs_theme(version = 4, bootswatch = "litera", secondary = "#f3969a")
 
 #set ui ----
 ui <- fluidPage(
   theme = light,
-  navbarPage("Prep for PrEP", id="inTabset",
+  navbarPage("Prep4PrEP", id="inTabset",
   #first tab welcome page
   tabPanel("Welcome",
-          div(h1("Prep for PrEP"),style="text-align:center;"),
-          div(h2("Welcome"),style="text-align:center;"),
+          div(h1("Prep4PrEP"),style="text-align:center;color:#f3969a"),
           br(),br(),
+          div(h3("Welcome"),style="text-align:center;font-size:15px; color:#4582ec"),
+          br(),
           div(
-            actionButton("do",tags$b( "Click here"),class='btn-primary'),
+            actionButton("do1",tags$b( "Click here"), class='btn-primary'),
             style="text-align:center;"),
+          br(),
+          div(h6("PrEP Locator from NPIN and Emory University, 
+                 Educational material from Great Than AIDS public information response."),
+              align="center", style="text-align:center;margin-left: auto; margin-right: auto; max-width: 20rem;"),
           ),
   #second tab learn page
   tabPanel(title="Learn", value = "panel1",
@@ -34,26 +39,30 @@ ui <- fluidPage(
       #setup main panel with action buttons 
       mainPanel(
         br(),
-        actionButton("button1", "What is PReP?"),
+        actionButton("button1", "What is PReP?", class='btn-secondary'),
         br(),br(),
-        actionButton("button2", "How does PReP work?"),
+        actionButton("button2", "How does PReP work?", class='btn-secondary'),
         br(),br(),
-        actionButton("button5", "Where can I get PrEP?"),
+        actionButton("button5", "Where can I get PrEP?", class='btn-secondary'),
         br(),br(),
-        actionButton("button3", "How do I get PReP?"),
+        actionButton("button3", "How do I get PReP?", class='btn-secondary'),
         br(),br(),
-        actionButton("button6", "How effective is PrEP?"),
+        actionButton("button6", "How effective is PrEP?", class='btn-secondary'),
         br(),br(),
-        actionButton("button8", "Does PrEP have side effects?"),
+        actionButton("button8", "Does PrEP have side effects?", class='btn-secondary'),
         br(),br(),
-        actionButton("button7", "I use condoms. Do I need PrEP?"),
+        actionButton("button7", "I use condoms. Do I need PrEP?", class='btn-secondary'),
         br(),br(),
-        actionButton("button4", "PrEP vs PEP?")
+        actionButton("button4", "PrEP vs PEP?", class='btn-secondary'),
+        br(),br(),
+        div(
+          actionButton("do2",tags$b( "Get PrEP"),class='btn-primary'),
+          style="text-align:left;"),
         )
       )
     ),
   #third tab get page
-  tabPanel("Get",
+  tabPanel("Get PrEP", value = "panel2",
            mainPanel(
            #will embed prep locator via iframe
            htmlOutput("frame")
@@ -73,9 +82,14 @@ server <- function(input, output, session) {
   })
   
   #setup welcome page click here button
-  observeEvent(input$do, {
+  observeEvent(input$do1, {
     updateTabsetPanel(session, "inTabset",
                       selected = "panel1")
+  })
+  
+  observeEvent(input$do2, {
+    updateTabsetPanel(session, "inTabset",
+                      selected = "panel2")
   })
   
   #setup action buttons on learn page with modal pop-out videos
