@@ -1,23 +1,28 @@
+# load libraries ----
 library(shiny)
 library(bslib)
 library(vembedr)
 library(htmltools)
 library(flexdashboard)
-light <- bs_theme(version = 4, bootswatch = "minty")
+# set theme ----
+light <- bs_theme(version = 4, bootswatch = "litera")
 
+#set ui ----
 ui <- fluidPage(
   theme = light,
   navbarPage("Prep for PrEP", id="inTabset",
+  #first tab welcome page
   tabPanel("Welcome",
           div(h1("Prep for PrEP"),style="text-align:center;"),
           div(h2("Welcome"),style="text-align:center;"),
           br(),br(),
           div(
-            actionButton("do",tags$b( "Click here")),
+            actionButton("do",tags$b( "Click here"),class='btn-primary'),
             style="text-align:center;"),
           ),
+  #second tab learn page
   tabPanel(title="Learn", value = "panel1",
-    titlePanel("Learn more about PrEP"),
+    titlePanel("Learn about PrEP"),
     h3("Sources"),
     sidebarLayout(
       sidebarPanel(
@@ -26,6 +31,7 @@ ui <- fluidPage(
         to the U.S. domestic HIV/AIDS epidemic with a focus on areas and people most affected. 
         Video content from  Greater Than AIDS Youtube Channel.")
       ),
+      #setup main panel with action buttons 
       mainPanel(
         br(),
         actionButton("button1", "What is PReP?"),
@@ -46,32 +52,33 @@ ui <- fluidPage(
         )
       )
     ),
+  #third tab get page
   tabPanel("Get",
            mainPanel(
+           #will embed prep locator via iframe
            htmlOutput("frame")
-           )
-           )
-  
+           ))
   ))
 
 server <- function(input, output, session) {
   textFill <- reactiveValues(data="9CyW09S5Le8")
   
+  #setup prep locator iframe
   output$frame <- renderUI({
     my_iframe <- tags$iframe(src='https://preplocator.org/prep-widget/',
                              frameborder = "no",
                              scrolling="no",
-                             # overflow="hidden",
                              position= "fixed",
                              style='width:100%; height:100vh')
-    # style='width:95vw;height:100vh;'
   })
   
+  #setup welcome page click here button
   observeEvent(input$do, {
     updateTabsetPanel(session, "inTabset",
                       selected = "panel1")
   })
   
+  #setup action buttons on learn page with modal pop-out videos
   observeEvent(input$button1, {
     textFill$data <- ("9CyW09S5Le8")
     
@@ -83,7 +90,6 @@ server <- function(input, output, session) {
         use_align("left") %>%
         use_bs_responsive()
     ))
-    
   })
   observeEvent(input$button2, {
     textFill$data <- ("uPhHVaz0srI")
@@ -96,7 +102,6 @@ server <- function(input, output, session) {
         use_align("left") %>%
         use_bs_responsive()
     ))
-    
   })
   observeEvent(input$button3, {
     textFill$data <- ("pI5plRKTRBE") 
@@ -121,7 +126,6 @@ server <- function(input, output, session) {
         use_align("left") %>%
         use_bs_responsive()
     ))
-    
   })  
   observeEvent(input$button5, {
     textFill$data <- ("Cp_g3PhMqSM") 
@@ -173,5 +177,5 @@ server <- function(input, output, session) {
   })
   
 }
-
+#run shiny app
 shinyApp(ui, server)
