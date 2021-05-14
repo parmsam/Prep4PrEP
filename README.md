@@ -1,4 +1,4 @@
-# hiv-prep-education
+# Prep4PrEP
 
 Shiny app based on Greater than AIDS information response from KFF. Aiming to briefly educate and inform on PrEP.
 
