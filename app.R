@@ -3,7 +3,6 @@ library(shiny)
 library(bslib)
 library(vembedr)
 library(htmltools)
-library(flexdashboard)
 # set theme ----
 light <- bs_theme(version = 4, bootswatch = "litera", secondary = "#f3969a")
 
@@ -18,7 +17,7 @@ ui <- fluidPage(
           div(h3("Welcome"),style="text-align:center;font-size:15px; color:#4582ec"),
           br(),
           div(
-            actionButton("do1",tags$b( "Click here"), class='btn-primary'),
+            actionButton("do1",tags$b( "Click here"), class='btn-primary', style="font-size: 18px"),
             style="text-align:center;"),
           br(),
           div(h6("PrEP Locator from NPIN and Emory University, 
@@ -27,7 +26,7 @@ ui <- fluidPage(
           ),
   #second tab learn page
   tabPanel(title="Learn", value = "panel1",
-    titlePanel("Learn about PrEP"),
+    div(h1("Learn about PrEP", style="text-align:center;color:#f3969a")),
     h3("Sources"),
     sidebarLayout(
       sidebarPanel(
@@ -56,13 +55,14 @@ ui <- fluidPage(
         actionButton("button4", "PrEP vs PEP?", class='btn-secondary'),
         br(),br(),
         div(
-          actionButton("do2",tags$b( "Get PrEP"),class='btn-primary'),
+          actionButton("do2",tags$b( "Get PrEP"),class='btn-primary', style="font-size: 18px"),
           style="text-align:left;"),
         )
       )
     ),
   #third tab get page
   tabPanel("Get PrEP", value = "panel2",
+           div(h1("Get PrEP Nearby", style="text-align:center;color:#f3969a")),
            mainPanel(
            #will embed prep locator via iframe
            htmlOutput("frame")
