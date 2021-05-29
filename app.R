@@ -14,14 +14,15 @@ ui <- fluidPage(
   tabPanel("Welcome",
           div(h1("Prep4PrEP"),style="text-align:center;color:#f3969a"),
           br(),br(),
-          div(h3("Welcome"),style="text-align:center;font-size:15px; color:#4582ec"),
+          # div(h3("Welcome"),style="text-align:center;font-size:15px; color:#4582ec"),
+          div(h3("Welcome"),style="text-align:center;font-size:15px; color:black"),
           br(),
           div(
             actionButton("do1",tags$b( "Click here"), class='btn-primary', style="font-size: 18px"),
             style="text-align:center;"),
           br(),
           div(h6("PrEP Locator from NPIN and Emory University, 
-                 Educational material from Great Than AIDS public information response."),
+                 Educational material from Greater Than AIDS public information response."),
               align="center", style="text-align:center;margin-left: auto; margin-right: auto; max-width: 20rem;"),
           ),
   #second tab learn page
